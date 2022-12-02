@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="./asset/exciseLogo.png" type="image/x-icon" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>Region2 Excise Tag Maps</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #mainBody {
+            height: 100%;
+            padding-top: 55px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar fixed-top" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenuOffcanvas"
+                aria-controls="mainMenuOffcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="./">
+                <img src="./asset/exciseLogo.png" alt="Logo" height="24" class="d-inline-block align-text-top">
+                Region2 Excise Tag Maps
+            </a>
+        </div>
+    </nav>
+
+    <div id="mainBody">
+        <iframe id="frame1" src="./loading.html" frameborder="0"></iframe>
+    </div>
+
+    <div class="offcanvas offcanvas-start text-bg-dark" data-bs-backdrop="static" tabindex="-1" id="mainMenuOffcanvas"
+        aria-labelledby="mainMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="mainMenuLabel">Excise Tag Maps</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <hr />
+        <div class="offcanvas-body">
+            <nav class="nav flex-column">
+                <a class="nav-link text-white" href="index.html"><i class="bi bi-house-fill"></i> Home</a>
+                <a class="nav-link text-white" href="?page=user"><i class="bi bi-people-fill"></i> User</a>
+                <a class="nav-link text-white" onclick="googleSignIn()" style="cursor: pointer;"><i class="bi bi-google"></i> Google Sign In</a>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        var appURL = "https://script.google.com/macros/s/AKfycbx_I1vdE-cpR59_Q-UkX0hp2UqE6YZH5feIAjYAG9DMtSC0KXWwYhYX5J9-njy1bLMD/exec";
+        window.onload = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let lat = position.coords.latitude;
+                    let lng = position.coords.longitude;
+                    loadForm(lat, lng);
+                });
+            } else {
+                let lat = 13.331469;
+                let lng = 100.967483;
+                loadForm(lat, lng);
+            }
+        }
+
+        function loadForm(lat, lng) {
+            let href = window.location.href;
+            let temp = new URL(href);
+            let page = temp.searchParams.get('page') ? temp.searchParams.get('page') : 'index';
+            let arrUrl = href.split('?');
+            let url = arrUrl[0];
+            appURL += `?page=${page}&lat=${lat}&lng=${lng}&url=${url}`;
+            document.getElementById('frame1').src = appURL;
+        }
+
+        function googleSignIn() {
+            let signinUrl = 'https://accounts.google.com/ServiceLogin/signinchooser?continue=';
+            let href = window.location.href;
+            let arrUrl = href.split('?');
+            let url = arrUrl[0];
+            signinUrl += url;
+            window.location.replace(signinUrl);
+        }
+    </script>
+</body>
+
+</html>
