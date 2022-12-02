@@ -61,7 +61,7 @@
             <nav class="nav flex-column">
                 <a class="nav-link text-white" href="index.html"><i class="bi bi-house-fill"></i> Home</a>
                 <a class="nav-link text-white" href="?page=user"><i class="bi bi-people-fill"></i> User</a>
-                <a class="nav-link text-white" onclick="googleSignIn()" style="cursor: pointer;"><i class="bi bi-google"></i> Google Sign In</a>
+                <a class="nav-link text-white" href="https://accounts.google.com/ServiceLogin/signinchooser" target="_blank"><i class="bi bi-google"></i> Google Sign In</a>
             </nav>
         </div>
     </div>
@@ -93,15 +93,6 @@
             let url = arrUrl[0];
             appURL += `?page=${page}&lat=${lat}&lng=${lng}&url=${url}`;
             document.getElementById('frame1').src = appURL;
-        }
-
-        function googleSignIn() {
-            let signinUrl = 'https://accounts.google.com/ServiceLogin/signinchooser?continue=';
-            let href = window.location.href;
-            let arrUrl = href.split('?');
-            let url = arrUrl[0];
-            signinUrl += url;
-            window.location.replace(signinUrl);
         }
     </script>
 </body>
